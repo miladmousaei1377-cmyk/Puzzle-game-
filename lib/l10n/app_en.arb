@@ -1,0 +1,41 @@
+{
+  "@@locale": "en",
+  "appTitle": "Silent Garden",
+  "menuContinue": "Continue",
+  "menuLevels": "Levels",
+  "menuHelp": "Help",
+  "menuSettings": "Settings",
+  "menuAbout": "About",
+  "hintButton": "Hint",
+  "hintRemaining": "{count} hints remaining",
+  "@hintRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "clearInput": "Clear",
+  "puzzleSolved": "Solved!",
+  "nextLevel": "Next Level",
+  "backToMap": "Back to Map",
+  "backToMenu": "Back to Menu",
+  "settingsLanguage": "Language",
+  "settingsMusic": "Music Volume",
+  "settingsSfx": "Sound Effects",
+  "settingsReducedMotion": "Reduced Motion",
+  "settingsColorblind": "Colorblind Mode",
+  "settingsResetProgress": "Reset Progress",
+  "resetConfirmTitle": "Are you sure?",
+  "resetConfirmBody": "All your progress will be permanently deleted.",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "levelLocked": "Locked",
+  "levelSolved": "Solved",
+  "levelInProgress": "In Progress",
+  "hintTitle": "Hint",
+  "wrongCode": "Wrong code, try again",
+  "congratulations": "Well done!",
+  "levelComplete": "Level complete",
+  "persian": "فارسی",
+  "english": "English",
+  "aboutText": "Silent Garden — a calm, dreamlike puzzle game"
+}

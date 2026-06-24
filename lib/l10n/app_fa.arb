@@ -1,0 +1,41 @@
+{
+  "@@locale": "fa",
+  "appTitle": "باغ خاموش",
+  "menuContinue": "ادامه بازی",
+  "menuLevels": "مراحل",
+  "menuHelp": "راهنما",
+  "menuSettings": "تنظیمات",
+  "menuAbout": "درباره بازی",
+  "hintButton": "راهنمایی",
+  "hintRemaining": "{count} راهنمایی باقی‌مانده",
+  "@hintRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "clearInput": "پاک کردن",
+  "puzzleSolved": "حل شد!",
+  "nextLevel": "مرحله بعد",
+  "backToMap": "بازگشت به نقشه",
+  "backToMenu": "بازگشت به منو",
+  "settingsLanguage": "زبان",
+  "settingsMusic": "صدای موزیک",
+  "settingsSfx": "صدای افکت‌ها",
+  "settingsReducedMotion": "کاهش حرکت",
+  "settingsColorblind": "حالت دوستدار کوررنگی",
+  "settingsResetProgress": "بازنشانی پیشرفت",
+  "resetConfirmTitle": "آیا مطمئنی؟",
+  "resetConfirmBody": "تمام پیشرفت بازی برای همیشه حذف می‌شود.",
+  "confirm": "تأیید",
+  "cancel": "انصراف",
+  "levelLocked": "قفل",
+  "levelSolved": "حل شده",
+  "levelInProgress": "در حال انجام",
+  "hintTitle": "سرنخ",
+  "wrongCode": "کد درست نیست، دوباره امتحان کن",
+  "congratulations": "آفرین!",
+  "levelComplete": "مرحله را با موفقیت حل کردی",
+  "persian": "فارسی",
+  "english": "English",
+  "aboutText": "باغ خاموش — یک بازی پازلی آرام و رویاگونه"
+}
