@@ -1,0 +1,55 @@
+name: Build & Release APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v0.1.0-beta)'
+        required: true
+        default: 'v0.1.0-beta'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.4'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build debug APK (arm64)
+        run: flutter build apk --debug --target-platform android-arm64
+
+      - name: Rename APK
+        run: cp build/app/outputs/flutter-apk/app-debug.apk bagh-khamosh-${{ github.event.inputs.tag }}.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: "باغ خاموش ${{ github.event.inputs.tag }}"
+          body: |
+            ## نسخه آزمایشی باغ خاموش
+
+            این یک نسخه debug برای تست است.
+
+            ### نصب
+            1. فایل APK را دانلود کنید
+            2. در تنظیمات گوشی «نصب از منابع ناشناخته» را فعال کنید
+            3. فایل را اجرا کنید
+          files: bagh-khamosh-${{ github.event.inputs.tag }}.apk
+          draft: false
+          prerelease: true
