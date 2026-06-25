@@ -18,7 +18,7 @@ import 'app_localizations_fa.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'generated/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -295,6 +295,36 @@ abstract class AppLocalizations {
   /// In fa, this message translates to:
   /// **'باغ خاموش — یک بازی پازلی آرام و رویاگونه'**
   String get aboutText;
+
+  /// No description provided for @instructionsTitle.
+  ///
+  /// In fa, this message translates to:
+  /// **'راهنما'**
+  String get instructionsTitle;
+
+  /// No description provided for @instructionsSkip.
+  ///
+  /// In fa, this message translates to:
+  /// **'رد شدن'**
+  String get instructionsSkip;
+
+  /// No description provided for @instructionsStart.
+  ///
+  /// In fa, this message translates to:
+  /// **'شروع بازی'**
+  String get instructionsStart;
+
+  /// No description provided for @instructionsNext.
+  ///
+  /// In fa, this message translates to:
+  /// **'بعدی'**
+  String get instructionsNext;
+
+  /// No description provided for @progressOf.
+  ///
+  /// In fa, this message translates to:
+  /// **'{solved} از {total} مرحله'**
+  String progressOf(int solved, int total);
 }
 
 class _AppLocalizationsDelegate

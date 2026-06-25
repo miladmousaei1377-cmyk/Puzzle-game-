@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/theme.dart';
+import '../../core/services/sound_service.dart';
 import '../../data/models/puzzle_model.dart';
 import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/puzzle_repository.dart';
@@ -48,6 +49,8 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
   bool _wrongAnswer = false;
   bool _codeRevealed = false;
 
+  SoundService get _sound => ref.read(soundServiceProvider);
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +62,9 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
       for (final obj in widget.puzzle.objects) obj.id: 0.0,
     };
     _loadSavedState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sound.startAmbient();
+    });
   }
 
   void _loadSavedState() {
@@ -125,22 +131,37 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
   }
 
   void _onObjectPositionChanged(String id, Offset pos) {
+    final wasRevealed = _codeRevealed;
     setState(() {
       _positions[id] = pos;
       _codeRevealed = _checkRevealCondition();
     });
     _saveState();
+    if (_codeRevealed && !wasRevealed) {
+      _sound.playSfx(SfxType.snap);
+    }
+  }
+
+  void _onObjectSnapped() {
+    _sound.playSfx(SfxType.snap);
   }
 
   void _onObjectRotationChanged(String id, double rot) {
+    final wasRevealed = _codeRevealed;
     setState(() {
       _rotations[id] = rot % 360;
       _codeRevealed = _checkRevealCondition();
     });
     _saveState();
+    if (_codeRevealed && !wasRevealed) {
+      _sound.playSfx(SfxType.snap);
+    }
   }
 
   void _onKeypadChanged(List<PuzzleSymbol> input) {
+    if (input.length > _input.length) {
+      _sound.playSfx(SfxType.keypadPress);
+    }
     setState(() {
       _input = input;
       _wrongAnswer = false;
@@ -157,8 +178,10 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
     ).every((e) => e);
 
     if (correct) {
+      _sound.playSfx(SfxType.correctCode);
       _onSolved();
     } else {
+      _sound.playSfx(SfxType.wrongCode);
       setState(() {
         _wrongAnswer = true;
       });
@@ -212,6 +235,7 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
               reducedMotion: settings.settings.reducedMotion,
               onPositionChanged: _onObjectPositionChanged,
               onRotationChanged: _onObjectRotationChanged,
+              onSnap: _onObjectSnapped,
             ),
           ),
 
@@ -284,6 +308,7 @@ class _SceneArea extends StatelessWidget {
   final bool reducedMotion;
   final void Function(String, Offset) onPositionChanged;
   final void Function(String, double) onRotationChanged;
+  final VoidCallback? onSnap;
 
   const _SceneArea({
     required this.puzzle,
@@ -293,6 +318,7 @@ class _SceneArea extends StatelessWidget {
     required this.reducedMotion,
     required this.onPositionChanged,
     required this.onRotationChanged,
+    this.onSnap,
   });
 
   @override
@@ -313,13 +339,34 @@ class _SceneArea extends StatelessWidget {
           children: [
             // Background tint when code is revealed
             AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 700),
+              curve: Curves.easeOut,
               width: double.infinity,
               height: double.infinity,
               color: codeRevealed
-                  ? AppColors.accent.withValues(alpha: 0.04)
+                  ? AppColors.accent.withValues(alpha: 0.06)
                   : Colors.transparent,
             ),
+
+            // Subtle reveal border glow
+            if (codeRevealed)
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: AnimatedOpacity(
+                    opacity: 1.0,
+                    duration: const Duration(milliseconds: 800),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: AppColors.accent.withValues(alpha: 0.35),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
             // Objects
             ...sortedObjects.map((obj) {
@@ -339,6 +386,7 @@ class _SceneArea extends StatelessWidget {
                   reducedMotion: reducedMotion,
                   onPositionChanged: (p) => onPositionChanged(obj.id, p),
                   onRotationChanged: (r) => onRotationChanged(obj.id, r),
+                  onSnap: onSnap,
                 ),
               );
             }),

@@ -108,4 +108,21 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get aboutText => 'باغ خاموش — یک بازی پازلی آرام و رویاگونه';
+
+  @override
+  String get instructionsTitle => 'راهنما';
+
+  @override
+  String get instructionsSkip => 'رد شدن';
+
+  @override
+  String get instructionsStart => 'شروع بازی';
+
+  @override
+  String get instructionsNext => 'بعدی';
+
+  @override
+  String progressOf(int solved, int total) {
+    return '$solved از $total مرحله';
+  }
 }

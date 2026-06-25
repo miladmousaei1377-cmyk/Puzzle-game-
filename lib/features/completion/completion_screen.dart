@@ -16,10 +16,12 @@ class CompletionScreen extends ConsumerStatefulWidget {
 }
 
 class _CompletionScreenState extends ConsumerState<CompletionScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _ctrl;
+  late AnimationController _leafCtrl;
   late Animation<double> _scale;
   late Animation<double> _fade;
+  late Animation<double> _leafDraw;
 
   @override
   void initState() {
@@ -28,17 +30,24 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
+    _leafCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1400),
+    );
     _scale = CurvedAnimation(parent: _ctrl, curve: Curves.easeOutBack);
     _fade = CurvedAnimation(
       parent: _ctrl,
       curve: const Interval(0.3, 1.0),
     );
-    _ctrl.forward();
+    _leafDraw = CurvedAnimation(parent: _leafCtrl, curve: Curves.easeOut);
+
+    _ctrl.forward().then((_) => _leafCtrl.forward());
   }
 
   @override
   void dispose() {
     _ctrl.dispose();
+    _leafCtrl.dispose();
     super.dispose();
   }
 
@@ -62,6 +71,15 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Leaf growth animation
+                AnimatedBuilder(
+                  animation: _leafDraw,
+                  builder: (_, __) => CustomPaint(
+                    size: const Size(120, 80),
+                    painter: _LeafGrowPainter(_leafDraw.value),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 ScaleTransition(
                   scale: _scale,
                   child: Container(
@@ -141,4 +159,71 @@ class _CompletionScreenState extends ConsumerState<CompletionScreen>
       ),
     );
   }
+}
+
+class _LeafGrowPainter extends CustomPainter {
+  final double progress;
+  _LeafGrowPainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = AppColors.accent
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    final leafPaint = Paint()
+      ..color = AppColors.accent.withValues(alpha: 0.25)
+      ..style = PaintingStyle.fill;
+
+    final cx = size.width / 2;
+    final cy = size.height;
+
+    // Draw stem
+    final stemEnd = Offset(cx, cy * (1 - progress * 0.6));
+    canvas.drawLine(Offset(cx, cy), stemEnd, paint);
+
+    if (progress > 0.3) {
+      final leafProgress = ((progress - 0.3) / 0.7).clamp(0.0, 1.0);
+      // Left leaf
+      _drawLeaf(canvas, paint, leafPaint,
+          Offset(cx, cy * 0.6), leafProgress, -0.6);
+      // Right leaf
+      _drawLeaf(canvas, paint, leafPaint,
+          Offset(cx, cy * 0.5), leafProgress, 0.6);
+    }
+
+    if (progress > 0.7) {
+      final tipProgress = ((progress - 0.7) / 0.3).clamp(0.0, 1.0);
+      _drawLeaf(canvas, paint, leafPaint,
+          Offset(cx, cy * 0.3), tipProgress, 0.0);
+    }
+  }
+
+  void _drawLeaf(Canvas canvas, Paint stroke, Paint fill, Offset base,
+      double p, double angle) {
+    final r = 14.0 * p;
+    if (r < 1) return;
+    final tip = base + Offset(r * 1.5 * angle.sign * (1 - angle.abs() * 0.3),
+        -r * 1.2);
+    final ctrl = Offset(
+        base.dx + (tip.dx - base.dx) * 0.3 + r * 0.8 * (angle > 0 ? 1 : -1),
+        base.dy - r * 0.5);
+
+    final path = Path()
+      ..moveTo(base.dx, base.dy)
+      ..quadraticBezierTo(ctrl.dx, ctrl.dy, tip.dx, tip.dy)
+      ..quadraticBezierTo(
+          base.dx + (tip.dx - base.dx) * 0.7 - r * 0.4 * (angle > 0 ? 1 : -1),
+          base.dy - r * 0.8,
+          base.dx,
+          base.dy)
+      ..close();
+    canvas.drawPath(path, fill);
+    canvas.drawPath(path, stroke);
+  }
+
+  @override
+  bool shouldRepaint(_LeafGrowPainter old) => old.progress != progress;
 }

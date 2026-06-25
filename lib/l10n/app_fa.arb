@@ -37,5 +37,16 @@
   "levelComplete": "مرحله را با موفقیت حل کردی",
   "persian": "فارسی",
   "english": "English",
-  "aboutText": "باغ خاموش — یک بازی پازلی آرام و رویاگونه"
+  "aboutText": "باغ خاموش — یک بازی پازلی آرام و رویاگونه",
+  "instructionsTitle": "راهنما",
+  "instructionsSkip": "رد شدن",
+  "instructionsStart": "شروع بازی",
+  "instructionsNext": "بعدی",
+  "progressOf": "{solved} از {total} مرحله",
+  "@progressOf": {
+    "placeholders": {
+      "solved": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  }
 }

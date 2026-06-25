@@ -109,4 +109,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutText => 'Silent Garden — a calm, dreamlike puzzle game';
+
+  @override
+  String get instructionsTitle => 'How to Play';
+
+  @override
+  String get instructionsSkip => 'Skip';
+
+  @override
+  String get instructionsStart => 'Start Playing';
+
+  @override
+  String get instructionsNext => 'Next';
+
+  @override
+  String progressOf(int solved, int total) {
+    return '$solved of $total levels';
+  }
 }

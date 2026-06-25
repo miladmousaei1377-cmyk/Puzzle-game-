@@ -65,6 +65,11 @@ class MainMenuScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   _MenuButton(
+                    label: l10n.menuHelp,
+                    onTap: () => context.push('/instructions'),
+                  ),
+                  const SizedBox(height: 12),
+                  _MenuButton(
                     label: l10n.menuSettings,
                     onTap: () => context.push('/settings'),
                   ),

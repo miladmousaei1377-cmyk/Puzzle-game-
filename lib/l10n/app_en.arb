@@ -37,5 +37,16 @@
   "levelComplete": "Level complete",
   "persian": "فارسی",
   "english": "English",
-  "aboutText": "Silent Garden — a calm, dreamlike puzzle game"
+  "aboutText": "Silent Garden — a calm, dreamlike puzzle game",
+  "instructionsTitle": "How to Play",
+  "instructionsSkip": "Skip",
+  "instructionsStart": "Start Playing",
+  "instructionsNext": "Next",
+  "progressOf": "{solved} of {total} levels",
+  "@progressOf": {
+    "placeholders": {
+      "solved": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  }
 }

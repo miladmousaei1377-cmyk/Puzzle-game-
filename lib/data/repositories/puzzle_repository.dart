@@ -20,6 +20,9 @@ class PuzzleRepository {
   static const _knownPuzzles = [
     'puzzle_001',
     'puzzle_002',
+    'puzzle_003',
+    'puzzle_004',
+    'puzzle_005',
   ];
 
   Future<List<String>> listPuzzleIds() async {

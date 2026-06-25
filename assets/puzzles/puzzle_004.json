@@ -1,0 +1,47 @@
+{
+  "id": "puzzle_004",
+  "title_fa": "آینه‌های شکسته",
+  "intro_text_fa": "تکه‌های آینه را به جای درست‌شان بکش.",
+  "scene_background": "",
+  "solution_symbols": ["diamond", "circle", "diamond"],
+  "hint_text_fa": "هر تکه آینه یک نقطه خاص روی دیوار دارد — دنبال سایه‌های کمرنگ بگرد.",
+  "objects": [
+    {
+      "id": "shard_1",
+      "asset": "",
+      "initial_position": { "x": 50, "y": 380 },
+      "movable": true,
+      "rotatable": false,
+      "z_index": 1,
+      "snap_zones": [
+        { "target_position": { "x": 80, "y": 150 }, "snap_radius": 45 }
+      ]
+    },
+    {
+      "id": "shard_2",
+      "asset": "",
+      "initial_position": { "x": 200, "y": 400 },
+      "movable": true,
+      "rotatable": false,
+      "z_index": 2,
+      "snap_zones": [
+        { "target_position": { "x": 170, "y": 220 }, "snap_radius": 45 }
+      ]
+    },
+    {
+      "id": "shard_3",
+      "asset": "",
+      "initial_position": { "x": 110, "y": 420 },
+      "movable": true,
+      "rotatable": false,
+      "z_index": 3,
+      "snap_zones": [
+        { "target_position": { "x": 120, "y": 300 }, "snap_radius": 45 }
+      ]
+    }
+  ],
+  "reveal_condition": {
+    "type": "all_snapped",
+    "requires": []
+  }
+}

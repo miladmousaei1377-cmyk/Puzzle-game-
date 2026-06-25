@@ -27,7 +27,7 @@ class LevelSelectScreen extends ConsumerWidget {
         iconTheme: const IconThemeData(color: AppColors.ink),
       ),
       body: puzzleList.when(
-        data: (ids) => _buildGrid(context, ids, solved, l10n),
+        data: (ids) => _buildGrid(context, ids, solved, l10n, ref),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('خطا: $e')),
       ),
@@ -39,28 +39,75 @@ class LevelSelectScreen extends ConsumerWidget {
     List<String> ids,
     Set<String> solved,
     AppLocalizations l10n,
+    WidgetRef ref,
   ) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(24),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-      ),
-      itemCount: ids.length,
-      itemBuilder: (_, index) {
-        final id = ids[index];
-        final isSolved = solved.contains(id);
-        final isLocked = index > 0 && !solved.contains(ids[index - 1]);
+    final solvedCount = solved.length;
+    final totalCount = ids.length;
+    final progress = totalCount > 0 ? solvedCount / totalCount : 0.0;
 
-        return _LevelCard(
-          id: id,
-          index: index + 1,
-          isSolved: isSolved,
-          isLocked: isLocked,
-          onTap: isLocked ? null : () => context.push('/puzzle/$id'),
-        );
-      },
+    return Column(
+      children: [
+        // Progress bar
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('$solvedCount از $totalCount مرحله',
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.muted,
+                          fontFamily: AppFonts.body)),
+                  Text('${(progress * 100).round()}٪',
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.accent,
+                          fontFamily: AppFonts.body,
+                          fontWeight: FontWeight.w500)),
+                ],
+              ),
+              const SizedBox(height: 6),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: AppColors.muted.withValues(alpha: 0.3),
+                  valueColor: const AlwaysStoppedAnimation(AppColors.accent),
+                  minHeight: 6,
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Grid
+        Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+            itemCount: ids.length,
+            itemBuilder: (_, index) {
+              final id = ids[index];
+              final isSolved = solved.contains(id);
+              final isLocked = index > 0 && !solved.contains(ids[index - 1]);
+
+              return _LevelCard(
+                id: id,
+                index: index + 1,
+                isSolved: isSolved,
+                isLocked: isLocked,
+                onTap: isLocked ? null : () => context.push('/puzzle/$id'),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
