@@ -2,38 +2,55 @@
   "id": "puzzle_007",
   "title_fa": "آینه‌های کهکشان",
   "intro_text_fa": "آینه‌ها را بچرخان تا نور ستاره‌ها الگوی درستی بسازد.",
-  "scene_background": "",
-  "solution_symbols": ["circle", "triangle", "circle", "moon"],
+  "scene_background": "assets/images/backgrounds/bg_007.png",
+  "solution_symbols": [
+    "circle",
+    "triangle",
+    "circle",
+    "moon"
+  ],
   "hint_text_fa": "وقتی همه آینه‌ها در زاویه درست باشند، نور از مرکز می‌تابد.",
   "objects": [
     {
       "id": "mirror_n",
-      "asset": "",
-      "initial_position": { "x": 130, "y": 10 },
+      "asset": "assets/images/objects/mirror_n.png",
+      "initial_position": {
+        "x": 130,
+        "y": 10
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 1
     },
     {
       "id": "mirror_e",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 100 },
+      "asset": "assets/images/objects/mirror_e.png",
+      "initial_position": {
+        "x": 230,
+        "y": 100
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 2
     },
     {
       "id": "mirror_s",
-      "asset": "",
-      "initial_position": { "x": 130, "y": 180 },
+      "asset": "assets/images/objects/mirror_s.png",
+      "initial_position": {
+        "x": 130,
+        "y": 180
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 3
     },
     {
       "id": "mirror_w",
-      "asset": "",
-      "initial_position": { "x": 30, "y": 100 },
+      "asset": "assets/images/objects/mirror_w.png",
+      "initial_position": {
+        "x": 30,
+        "y": 100
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 4
@@ -42,10 +59,22 @@
   "reveal_condition": {
     "type": "rotation_match",
     "requires": [
-      { "object_id": "mirror_n", "target_angle": 180 },
-      { "object_id": "mirror_e", "target_angle": 225 },
-      { "object_id": "mirror_s", "target_angle": 45 },
-      { "object_id": "mirror_w", "target_angle": 135 }
+      {
+        "object_id": "mirror_n",
+        "target_angle": 180
+      },
+      {
+        "object_id": "mirror_e",
+        "target_angle": 225
+      },
+      {
+        "object_id": "mirror_s",
+        "target_angle": 45
+      },
+      {
+        "object_id": "mirror_w",
+        "target_angle": 135
+      }
     ]
   }
 }

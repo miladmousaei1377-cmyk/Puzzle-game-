@@ -2,38 +2,54 @@
   "id": "puzzle_002",
   "title_fa": "ماهی‌های شیشه‌ای",
   "intro_text_fa": "ماهی‌ها را بچرخان تا الگوهای پنهان را کشف کنی.",
-  "scene_background": "",
-  "solution_symbols": ["circle", "diamond", "circle"],
+  "scene_background": "assets/images/backgrounds/bg_002.png",
+  "solution_symbols": [
+    "circle",
+    "diamond",
+    "circle"
+  ],
   "hint_text_fa": "وقتی دو ماهی روی هم قرار می‌گیرند، به فضای خالی بین‌شان نگاه کن.",
   "objects": [
     {
       "id": "fish_1",
-      "asset": "",
-      "initial_position": { "x": 50, "y": 50 },
+      "asset": "assets/images/objects/fish_1.png",
+      "initial_position": {
+        "x": 50,
+        "y": 50
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 1
     },
     {
       "id": "fish_2",
-      "asset": "",
-      "initial_position": { "x": 190, "y": 50 },
+      "asset": "assets/images/objects/fish_2.png",
+      "initial_position": {
+        "x": 190,
+        "y": 50
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 2
     },
     {
       "id": "fish_3",
-      "asset": "",
-      "initial_position": { "x": 50, "y": 160 },
+      "asset": "assets/images/objects/fish_3.png",
+      "initial_position": {
+        "x": 50,
+        "y": 160
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 3
     },
     {
       "id": "fish_4",
-      "asset": "",
-      "initial_position": { "x": 190, "y": 160 },
+      "asset": "assets/images/objects/fish_4.png",
+      "initial_position": {
+        "x": 190,
+        "y": 160
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 4
@@ -42,10 +58,22 @@
   "reveal_condition": {
     "type": "rotation_match",
     "requires": [
-      { "object_id": "fish_1", "target_angle": 45 },
-      { "object_id": "fish_2", "target_angle": 180 },
-      { "object_id": "fish_3", "target_angle": 90 },
-      { "object_id": "fish_4", "target_angle": 225 }
+      {
+        "object_id": "fish_1",
+        "target_angle": 45
+      },
+      {
+        "object_id": "fish_2",
+        "target_angle": 180
+      },
+      {
+        "object_id": "fish_3",
+        "target_angle": 90
+      },
+      {
+        "object_id": "fish_4",
+        "target_angle": 225
+      }
     ]
   }
 }

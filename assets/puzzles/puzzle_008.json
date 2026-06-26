@@ -2,39 +2,51 @@
   "id": "puzzle_008",
   "title_fa": "قطب‌نمای باستانی",
   "intro_text_fa": "عقربه‌های قطب‌نما را به جهت درست بچرخان تا رمز پنهان ظاهر شود.",
-  "scene_background": "",
+  "scene_background": "assets/images/backgrounds/bg_008.png",
   "solution_symbols": [],
   "solution_code": "1836",
   "hint_text_fa": "هر عقربه یک عدد را پنهان می‌کند — به سایه‌ی هر عقربه روی صفحه توجه کن.",
   "objects": [
     {
       "id": "needle_1",
-      "asset": "",
-      "initial_position": { "x": 30, "y": 50 },
+      "asset": "assets/images/objects/needle_1.png",
+      "initial_position": {
+        "x": 30,
+        "y": 50
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 1
     },
     {
       "id": "needle_2",
-      "asset": "",
-      "initial_position": { "x": 190, "y": 50 },
+      "asset": "assets/images/objects/needle_2.png",
+      "initial_position": {
+        "x": 190,
+        "y": 50
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 2
     },
     {
       "id": "needle_3",
-      "asset": "",
-      "initial_position": { "x": 30, "y": 160 },
+      "asset": "assets/images/objects/needle_3.png",
+      "initial_position": {
+        "x": 30,
+        "y": 160
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 3
     },
     {
       "id": "needle_4",
-      "asset": "",
-      "initial_position": { "x": 190, "y": 160 },
+      "asset": "assets/images/objects/needle_4.png",
+      "initial_position": {
+        "x": 190,
+        "y": 160
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 4
@@ -43,10 +55,22 @@
   "reveal_condition": {
     "type": "rotation_match",
     "requires": [
-      { "object_id": "needle_1", "target_angle": 45 },
-      { "object_id": "needle_2", "target_angle": 180 },
-      { "object_id": "needle_3", "target_angle": 90 },
-      { "object_id": "needle_4", "target_angle": 135 }
+      {
+        "object_id": "needle_1",
+        "target_angle": 45
+      },
+      {
+        "object_id": "needle_2",
+        "target_angle": 180
+      },
+      {
+        "object_id": "needle_3",
+        "target_angle": 90
+      },
+      {
+        "object_id": "needle_4",
+        "target_angle": 135
+      }
     ]
   }
 }

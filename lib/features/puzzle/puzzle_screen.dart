@@ -360,6 +360,16 @@ class _SceneArea extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         child: Stack(
           children: [
+            // Scene background image
+            if (puzzle.sceneBackground.isNotEmpty)
+              Positioned.fill(
+                child: Image.asset(
+                  puzzle.sceneBackground,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                ),
+              ),
+
             // Background tint when code is revealed
             AnimatedContainer(
               duration: const Duration(milliseconds: 700),

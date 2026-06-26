@@ -107,6 +107,7 @@ class _DraggableObjectWidgetState extends State<DraggableObjectWidget>
           angle: widget.rotation * (3.14159 / 180),
           child: _ObjectShape(
             objectId: widget.object.id,
+            asset: widget.object.asset,
             isSnapped: widget.isSnapped,
           ),
         ),
@@ -117,14 +118,65 @@ class _DraggableObjectWidgetState extends State<DraggableObjectWidget>
 
 class _ObjectShape extends StatelessWidget {
   final String objectId;
+  final String asset;
   final bool isSnapped;
 
-  const _ObjectShape({required this.objectId, required this.isSnapped});
+  const _ObjectShape({
+    required this.objectId,
+    required this.asset,
+    required this.isSnapped,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Render placeholder shapes since we don't have actual image assets.
-    // These will be replaced with Image.asset() once real assets are added.
+    if (asset.isNotEmpty) {
+      return _AssetImage(asset: asset, isSnapped: isSnapped);
+    }
+    return _PlaceholderShape(objectId: objectId, isSnapped: isSnapped);
+  }
+}
+
+class _AssetImage extends StatelessWidget {
+  final String asset;
+  final bool isSnapped;
+  const _AssetImage({required this.asset, required this.isSnapped});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      width: 64,
+      height: 64,
+      decoration: isSnapped
+          ? BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.accent.withValues(alpha: 0.4),
+                  blurRadius: 8,
+                  spreadRadius: 1,
+                ),
+              ],
+            )
+          : null,
+      child: Image.asset(
+        asset,
+        width: 64,
+        height: 64,
+        errorBuilder: (_, __, ___) =>
+            _PlaceholderShape(objectId: asset, isSnapped: isSnapped),
+      ),
+    );
+  }
+}
+
+class _PlaceholderShape extends StatelessWidget {
+  final String objectId;
+  final bool isSnapped;
+  const _PlaceholderShape({required this.objectId, required this.isSnapped});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 64,
       height: 64,

@@ -122,14 +122,18 @@ class SoundService {
     if (_ambientStarted) return;
     _ambientStarted = true;
     try {
-      // Generate a soft looping drone (blend of 220 Hz and 330 Hz)
-      final drone = _makeWav([
-        (freq: 220, ms: 2000, vol: 0.15),
-        (freq: 330, ms: 2000, vol: 0.10),
-      ]);
       await _ambient.setVolume(_musicVolume);
       await _ambient.setReleaseMode(ReleaseMode.loop);
-      await _ambient.play(BytesSource(drone));
+      // Try real asset file first; fall back to synthesized drone
+      try {
+        await _ambient.play(AssetSource('sounds/ambient/garden_ambient.wav'));
+      } catch (_) {
+        final drone = _makeWav([
+          (freq: 220, ms: 2000, vol: 0.15),
+          (freq: 330, ms: 2000, vol: 0.10),
+        ]);
+        await _ambient.play(BytesSource(drone));
+      }
     } catch (_) {}
   }
 
@@ -138,12 +142,28 @@ class SoundService {
     _ambientStarted = false;
   }
 
+  static String _sfxFileName(SfxType type) {
+    switch (type) {
+      case SfxType.snap:        return 'snap.wav';
+      case SfxType.keypadPress: return 'keypad_press.wav';
+      case SfxType.correctCode: return 'correct_code.wav';
+      case SfxType.wrongCode:   return 'wrong_code.wav';
+      case SfxType.pickup:      return 'pickup.wav';
+      case SfxType.drop:        return 'drop.wav';
+    }
+  }
+
   Future<void> playSfx(SfxType type) async {
     if (_sfxVolume == 0) return;
     try {
-      final bytes = _sfxBytes(type);
       await _sfx.setVolume(_sfxVolume);
-      await _sfx.play(BytesSource(bytes));
+      // Try real asset file first; fall back to synthesized tone
+      try {
+        await _sfx.play(AssetSource('sounds/sfx/${_sfxFileName(type)}'));
+      } catch (_) {
+        final bytes = _sfxBytes(type);
+        await _sfx.play(BytesSource(bytes));
+      }
     } catch (_) {}
   }
 

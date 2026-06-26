@@ -2,47 +2,94 @@
   "id": "puzzle_006",
   "title_fa": "نقشه گنجینه",
   "intro_text_fa": "تکه‌های نقشه را سر جایشان بگذار تا رمز صندوق آشکار شود.",
-  "scene_background": "",
+  "scene_background": "assets/images/backgrounds/bg_006.png",
   "solution_symbols": [],
   "solution_code": "47",
   "hint_text_fa": "دنبال نشانه‌های X روی نقشه بگرد — هر تکه یک بخش از رمز را پنهان می‌کند.",
   "objects": [
     {
       "id": "map_a",
-      "asset": "",
-      "initial_position": { "x": 20, "y": 10 },
+      "asset": "assets/images/objects/map_a.png",
+      "initial_position": {
+        "x": 20,
+        "y": 10
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 1,
-      "snap_zones": [{ "target_position": { "x": 60, "y": 140 }, "snap_radius": 50 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 60,
+            "y": 140
+          },
+          "snap_radius": 50
+        }
+      ]
     },
     {
       "id": "map_b",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 10 },
+      "asset": "assets/images/objects/map_b.png",
+      "initial_position": {
+        "x": 230,
+        "y": 10
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 2,
-      "snap_zones": [{ "target_position": { "x": 200, "y": 60 }, "snap_radius": 50 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 200,
+            "y": 60
+          },
+          "snap_radius": 50
+        }
+      ]
     },
     {
       "id": "map_c",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 170 },
+      "asset": "assets/images/objects/map_c.png",
+      "initial_position": {
+        "x": 230,
+        "y": 170
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 3,
-      "snap_zones": [{ "target_position": { "x": 130, "y": 60 }, "snap_radius": 50 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 130,
+            "y": 60
+          },
+          "snap_radius": 50
+        }
+      ]
     },
     {
       "id": "map_d",
-      "asset": "",
-      "initial_position": { "x": 20, "y": 170 },
+      "asset": "assets/images/objects/map_d.png",
+      "initial_position": {
+        "x": 20,
+        "y": 170
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 4,
-      "snap_zones": [{ "target_position": { "x": 130, "y": 160 }, "snap_radius": 50 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 130,
+            "y": 160
+          },
+          "snap_radius": 50
+        }
+      ]
     }
   ],
-  "reveal_condition": { "type": "all_snapped", "requires": [] }
+  "reveal_condition": {
+    "type": "all_snapped",
+    "requires": []
+  }
 }

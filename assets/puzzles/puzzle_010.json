@@ -2,47 +2,62 @@
   "id": "puzzle_010",
   "title_fa": "رمز کتابخانه",
   "intro_text_fa": "ستاره‌های کتابخانه را به زاویه درست بچرخان تا رمز قفل کتاب آشکار شود.",
-  "scene_background": "",
+  "scene_background": "assets/images/backgrounds/bg_010.png",
   "solution_symbols": [],
   "solution_code": "2847",
   "hint_text_fa": "هر ستاره هنگامی که درست باشد، عددی را نشان می‌دهد — از چپ به راست بخوان.",
   "objects": [
     {
       "id": "star_a",
-      "asset": "",
-      "initial_position": { "x": 20, "y": 80 },
+      "asset": "assets/images/objects/star_a.png",
+      "initial_position": {
+        "x": 20,
+        "y": 80
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 1
     },
     {
       "id": "star_b",
-      "asset": "",
-      "initial_position": { "x": 90, "y": 80 },
+      "asset": "assets/images/objects/star_b.png",
+      "initial_position": {
+        "x": 90,
+        "y": 80
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 2
     },
     {
       "id": "star_c",
-      "asset": "",
-      "initial_position": { "x": 160, "y": 80 },
+      "asset": "assets/images/objects/star_c.png",
+      "initial_position": {
+        "x": 160,
+        "y": 80
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 3
     },
     {
       "id": "star_d",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 80 },
+      "asset": "assets/images/objects/star_d.png",
+      "initial_position": {
+        "x": 230,
+        "y": 80
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 4
     },
     {
       "id": "star_e",
-      "asset": "",
-      "initial_position": { "x": 125, "y": 170 },
+      "asset": "assets/images/objects/star_e.png",
+      "initial_position": {
+        "x": 125,
+        "y": 170
+      },
       "movable": false,
       "rotatable": true,
       "z_index": 5
@@ -51,11 +66,26 @@
   "reveal_condition": {
     "type": "rotation_match",
     "requires": [
-      { "object_id": "star_a", "target_angle": 90 },
-      { "object_id": "star_b", "target_angle": 180 },
-      { "object_id": "star_c", "target_angle": 225 },
-      { "object_id": "star_d", "target_angle": 135 },
-      { "object_id": "star_e", "target_angle": 45 }
+      {
+        "object_id": "star_a",
+        "target_angle": 90
+      },
+      {
+        "object_id": "star_b",
+        "target_angle": 180
+      },
+      {
+        "object_id": "star_c",
+        "target_angle": 225
+      },
+      {
+        "object_id": "star_d",
+        "target_angle": 135
+      },
+      {
+        "object_id": "star_e",
+        "target_angle": 45
+      }
     ]
   }
 }

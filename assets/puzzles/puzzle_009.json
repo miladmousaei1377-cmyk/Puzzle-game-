@@ -2,55 +2,119 @@
   "id": "puzzle_009",
   "title_fa": "پازل باغ",
   "intro_text_fa": "گیاهان باغ را به ترتیب درست در باغچه بکار تا رمز باغ آشکار شود.",
-  "scene_background": "",
-  "solution_symbols": ["moon", "star", "moon", "star", "moon"],
+  "scene_background": "assets/images/backgrounds/bg_009.png",
+  "solution_symbols": [
+    "moon",
+    "star",
+    "moon",
+    "star",
+    "moon"
+  ],
   "hint_text_fa": "هر گیاه یک مکان خاص دارد — به شکل باغچه‌ها دقت کن.",
   "objects": [
     {
       "id": "plant_1",
-      "asset": "",
-      "initial_position": { "x": 20, "y": 170 },
+      "asset": "assets/images/objects/plant_1.png",
+      "initial_position": {
+        "x": 20,
+        "y": 170
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 1,
-      "snap_zones": [{ "target_position": { "x": 30, "y": 40 }, "snap_radius": 45 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 30,
+            "y": 40
+          },
+          "snap_radius": 45
+        }
+      ]
     },
     {
       "id": "plant_2",
-      "asset": "",
-      "initial_position": { "x": 100, "y": 10 },
+      "asset": "assets/images/objects/plant_2.png",
+      "initial_position": {
+        "x": 100,
+        "y": 10
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 2,
-      "snap_zones": [{ "target_position": { "x": 100, "y": 40 }, "snap_radius": 45 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 100,
+            "y": 40
+          },
+          "snap_radius": 45
+        }
+      ]
     },
     {
       "id": "plant_3",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 10 },
+      "asset": "assets/images/objects/plant_3.png",
+      "initial_position": {
+        "x": 230,
+        "y": 10
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 3,
-      "snap_zones": [{ "target_position": { "x": 170, "y": 40 }, "snap_radius": 45 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 170,
+            "y": 40
+          },
+          "snap_radius": 45
+        }
+      ]
     },
     {
       "id": "plant_4",
-      "asset": "",
-      "initial_position": { "x": 230, "y": 170 },
+      "asset": "assets/images/objects/plant_4.png",
+      "initial_position": {
+        "x": 230,
+        "y": 170
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 4,
-      "snap_zones": [{ "target_position": { "x": 65, "y": 140 }, "snap_radius": 45 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 65,
+            "y": 140
+          },
+          "snap_radius": 45
+        }
+      ]
     },
     {
       "id": "plant_5",
-      "asset": "",
-      "initial_position": { "x": 120, "y": 170 },
+      "asset": "assets/images/objects/plant_5.png",
+      "initial_position": {
+        "x": 120,
+        "y": 170
+      },
       "movable": true,
       "rotatable": false,
       "z_index": 5,
-      "snap_zones": [{ "target_position": { "x": 165, "y": 140 }, "snap_radius": 45 }]
+      "snap_zones": [
+        {
+          "target_position": {
+            "x": 165,
+            "y": 140
+          },
+          "snap_radius": 45
+        }
+      ]
     }
   ],
-  "reveal_condition": { "type": "all_snapped", "requires": [] }
+  "reveal_condition": {
+    "type": "all_snapped",
+    "requires": []
+  }
 }
