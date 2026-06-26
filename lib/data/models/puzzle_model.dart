@@ -112,9 +112,12 @@ class PuzzleModel {
   final String introTextFa;
   final String sceneBackground;
   final List<PuzzleSymbol> solutionSymbols;
+  final String? solutionCode; // null = symbol puzzle, non-null = numeric puzzle
   final String hintTextFa;
   final List<PuzzleObject> objects;
   final RevealCondition? revealCondition;
+
+  bool get isNumericCode => solutionCode != null && solutionCode!.isNotEmpty;
 
   const PuzzleModel({
     required this.id,
@@ -122,15 +125,19 @@ class PuzzleModel {
     required this.introTextFa,
     required this.sceneBackground,
     required this.solutionSymbols,
+    this.solutionCode,
     required this.hintTextFa,
     required this.objects,
     this.revealCondition,
   });
 
   factory PuzzleModel.fromJson(Map<String, dynamic> json) {
-    final symbols = (json['solution_symbols'] as List<dynamic>)
-        .map((s) => symbolFromString(s as String))
-        .toList();
+    final solutionCode = json['solution_code'] as String?;
+    final symbols = solutionCode != null
+        ? <PuzzleSymbol>[]
+        : (json['solution_symbols'] as List<dynamic>? ?? [])
+            .map((s) => symbolFromString(s as String))
+            .toList();
     final objs = (json['objects'] as List<dynamic>)
         .map((o) => PuzzleObject.fromJson(o as Map<String, dynamic>))
         .toList();
@@ -145,6 +152,7 @@ class PuzzleModel {
       introTextFa: json['intro_text_fa'] as String? ?? '',
       sceneBackground: json['scene_background'] as String? ?? '',
       solutionSymbols: symbols,
+      solutionCode: solutionCode,
       hintTextFa: json['hint_text_fa'] as String? ?? '',
       objects: objs,
       revealCondition: rc,

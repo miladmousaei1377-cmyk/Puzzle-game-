@@ -102,6 +102,14 @@ class ProgressRepository {
   Future<void> resetAll() async {
     await _progressBox.clear();
   }
+
+  void clearPuzzleState(String puzzleId) {
+    final box = _progressBox;
+    final existing = box.get(puzzleId);
+    if (existing != null && !existing.solved) {
+      box.delete(puzzleId);
+    }
+  }
 }
 
 class SettingsState {

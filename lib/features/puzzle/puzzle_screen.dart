@@ -7,6 +7,7 @@ import '../../data/models/puzzle_model.dart';
 import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/puzzle_repository.dart';
 import 'widgets/draggable_object_widget.dart';
+import 'widgets/numeric_keypad_widget.dart';
 import 'widgets/symbol_keypad_widget.dart';
 import 'widgets/hint_button_widget.dart';
 
@@ -46,8 +47,10 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
   late Map<String, Offset> _positions;
   late Map<String, double> _rotations;
   List<PuzzleSymbol> _input = [];
+  String _numericInput = '';
   bool _wrongAnswer = false;
   bool _codeRevealed = false;
+  int _resetCount = 0;
 
   SoundService get _sound => ref.read(soundServiceProvider);
 
@@ -61,42 +64,9 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
     _rotations = {
       for (final obj in widget.puzzle.objects) obj.id: 0.0,
     };
-    _loadSavedState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _sound.startAmbient();
     });
-  }
-
-  void _loadSavedState() {
-    final repo = ref.read(progressRepositoryProvider);
-    final saved = repo.getProgress(widget.puzzle.id);
-    if (saved != null) {
-      if (saved.objectPositionsX != null && saved.objectPositionsY != null) {
-        for (final obj in widget.puzzle.objects) {
-          final x = saved.objectPositionsX![obj.id];
-          final y = saved.objectPositionsY![obj.id];
-          if (x != null && y != null) {
-            _positions[obj.id] = Offset(x, y);
-          }
-        }
-      }
-      if (saved.objectRotations != null) {
-        for (final obj in widget.puzzle.objects) {
-          final r = saved.objectRotations![obj.id];
-          if (r != null) _rotations[obj.id] = r;
-        }
-      }
-    }
-  }
-
-  void _saveState() {
-    final repo = ref.read(progressRepositoryProvider);
-    repo.saveObjectState(
-      widget.puzzle.id,
-      {for (final e in _positions.entries) e.key: e.value.dx},
-      {for (final e in _positions.entries) e.key: e.value.dy},
-      Map.from(_rotations),
-    );
   }
 
   bool _checkRevealCondition() {
@@ -136,7 +106,6 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
       _positions[id] = pos;
       _codeRevealed = _checkRevealCondition();
     });
-    _saveState();
     if (_codeRevealed && !wasRevealed) {
       _sound.playSfx(SfxType.snap);
     }
@@ -152,7 +121,6 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
       _rotations[id] = rot % 360;
       _codeRevealed = _checkRevealCondition();
     });
-    _saveState();
     if (_codeRevealed && !wasRevealed) {
       _sound.playSfx(SfxType.snap);
     }
@@ -169,6 +137,18 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
   }
 
   void _onSubmit() {
+    if (widget.puzzle.isNumericCode) {
+      if (_numericInput == widget.puzzle.solutionCode) {
+        _sound.playSfx(SfxType.correctCode);
+        _onSolved();
+      } else {
+        _sound.playSfx(SfxType.wrongCode);
+        setState(() => _wrongAnswer = true);
+      }
+      return;
+    }
+
+    // Symbol logic
     final solution = widget.puzzle.solutionSymbols;
     if (_input.length != solution.length) return;
 
@@ -195,6 +175,25 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
     if (mounted) context.pushReplacement('/completion/${widget.puzzle.id}');
   }
 
+  void _resetPuzzle() {
+    setState(() {
+      _positions = {
+        for (final obj in widget.puzzle.objects) obj.id: obj.initialPosition,
+      };
+      _rotations = {
+        for (final obj in widget.puzzle.objects) obj.id: 0.0,
+      };
+      _input = [];
+      _numericInput = '';
+      _wrongAnswer = false;
+      _codeRevealed = false;
+      _resetCount++;
+    });
+    // Clear saved state for this puzzle
+    final repo = ref.read(progressRepositoryProvider);
+    repo.clearPuzzleState(widget.puzzle.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
@@ -212,6 +211,11 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
                 fontFamily: AppFonts.body, color: AppColors.ink, fontSize: 16)),
         iconTheme: const IconThemeData(color: AppColors.ink),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh_outlined),
+            tooltip: 'شروع از نو',
+            onPressed: _resetPuzzle,
+          ),
           HintButtonWidget(
             hintsRemaining: hintsUsed,
             hintText: widget.puzzle.hintTextFa,
@@ -257,9 +261,11 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Text(
-                        'کد آشکار شد — نمادها را وارد کن',
-                        style: TextStyle(
+                      Text(
+                        widget.puzzle.isNumericCode
+                            ? 'کد آشکار شد — اعداد را وارد کن'
+                            : 'کد آشکار شد — نمادها را وارد کن',
+                        style: const TextStyle(
                           color: AppColors.accent,
                           fontSize: 13,
                           fontFamily: AppFonts.body,
@@ -288,13 +294,28 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
                 top: BorderSide(color: AppColors.muted, width: 0.5),
               ),
             ),
-            child: SymbolKeypadWidget(
-              requiredLength: widget.puzzle.solutionSymbols.length,
-              enabled: _codeRevealed,
-              wrongAnswer: _wrongAnswer,
-              onChanged: _onKeypadChanged,
-              onSubmit: _onSubmit,
-            ),
+            child: widget.puzzle.isNumericCode
+                ? NumericKeypadWidget(
+                    key: ValueKey(_resetCount),
+                    requiredLength: widget.puzzle.solutionCode!.length,
+                    enabled: _codeRevealed,
+                    wrongAnswer: _wrongAnswer,
+                    onChanged: (s) {
+                      setState(() {
+                        _numericInput = s;
+                        _wrongAnswer = false;
+                      });
+                    },
+                    onSubmit: _onSubmit,
+                  )
+                : SymbolKeypadWidget(
+                    key: ValueKey(_resetCount),
+                    requiredLength: widget.puzzle.solutionSymbols.length,
+                    enabled: _codeRevealed,
+                    wrongAnswer: _wrongAnswer,
+                    onChanged: _onKeypadChanged,
+                    onSubmit: _onSubmit,
+                  ),
           ),
         ],
       ),
@@ -393,28 +414,55 @@ class _SceneArea extends StatelessWidget {
               );
             }),
 
-            // Symbol hints when code revealed
-            if (codeRevealed)
+            // Symbol hints when code revealed (symbol puzzles only)
+            if (codeRevealed && !puzzle.isNumericCode)
               Positioned(
                 bottom: 12,
                 right: 0,
                 left: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: puzzle.solutionSymbols.map((s) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: AnimatedOpacity(
-                      opacity: codeRevealed ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 800),
-                      child: Text(
-                        s.label,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          color: AppColors.accent,
-                        ),
+                  children: puzzle.solutionSymbols
+                      .map((s) => Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4),
+                            child: AnimatedOpacity(
+                              opacity: codeRevealed ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 800),
+                              child: Text(
+                                s.label,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  color: AppColors.accent,
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+
+            // Numeric code hint when code revealed (numeric puzzles only)
+            if (codeRevealed && puzzle.isNumericCode)
+              Positioned(
+                bottom: 12,
+                right: 0,
+                left: 0,
+                child: Center(
+                  child: AnimatedOpacity(
+                    opacity: codeRevealed ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 800),
+                    child: Text(
+                      puzzle.solutionCode!,
+                      style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.accent,
+                        fontFamily: AppFonts.body,
+                        letterSpacing: 8,
                       ),
                     ),
-                  )).toList(),
+                  ),
                 ),
               ),
           ],

@@ -23,6 +23,11 @@ class PuzzleRepository {
     'puzzle_003',
     'puzzle_004',
     'puzzle_005',
+    'puzzle_006',
+    'puzzle_007',
+    'puzzle_008',
+    'puzzle_009',
+    'puzzle_010',
   ];
 
   Future<List<String>> listPuzzleIds() async {

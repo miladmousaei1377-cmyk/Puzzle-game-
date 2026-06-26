@@ -43,9 +43,9 @@
     "type": "rotation_match",
     "requires": [
       { "object_id": "fish_1", "target_angle": 45 },
-      { "object_id": "fish_2", "target_angle": 315 },
+      { "object_id": "fish_2", "target_angle": 180 },
       { "object_id": "fish_3", "target_angle": 90 },
-      { "object_id": "fish_4", "target_angle": 270 }
+      { "object_id": "fish_4", "target_angle": 225 }
     ]
   }
 }

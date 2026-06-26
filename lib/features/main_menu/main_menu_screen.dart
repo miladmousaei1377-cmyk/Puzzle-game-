@@ -18,6 +18,7 @@ class MainMenuScreen extends ConsumerWidget {
     final puzzleList = ref.watch(puzzleListProvider);
     final settings = ref.watch(settingsProvider);
     final totalCount = puzzleList.value?.length ?? 2;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     // Find last in-progress puzzle for "continue"
     final lastPuzzle = _findLastPuzzle(solved, totalCount);
@@ -26,8 +27,12 @@ class MainMenuScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // Background tree
-          Positioned.fill(
+          // Background tree — occupies top 50% only so it doesn't overlap buttons
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: screenHeight * 0.5,
             child: Padding(
               padding: const EdgeInsets.all(40),
               child: GrowingTreeWidget(
