@@ -9,7 +9,7 @@
     {
       "id": "ribbon_1",
       "asset": "",
-      "initial_position": { "x": 60, "y": 160 },
+      "initial_position": { "x": 50, "y": 50 },
       "movable": false,
       "rotatable": true,
       "z_index": 1
@@ -17,7 +17,7 @@
     {
       "id": "ribbon_2",
       "asset": "",
-      "initial_position": { "x": 180, "y": 160 },
+      "initial_position": { "x": 190, "y": 50 },
       "movable": false,
       "rotatable": true,
       "z_index": 2
@@ -25,7 +25,7 @@
     {
       "id": "ribbon_3",
       "asset": "",
-      "initial_position": { "x": 60, "y": 290 },
+      "initial_position": { "x": 50, "y": 160 },
       "movable": false,
       "rotatable": true,
       "z_index": 3
@@ -33,7 +33,7 @@
     {
       "id": "ribbon_4",
       "asset": "",
-      "initial_position": { "x": 180, "y": 290 },
+      "initial_position": { "x": 190, "y": 160 },
       "movable": false,
       "rotatable": true,
       "z_index": 4
@@ -42,9 +42,9 @@
   "reveal_condition": {
     "type": "rotation_match",
     "requires": [
-      { "object_id": "ribbon_1", "target_angle": 0 },
+      { "object_id": "ribbon_1", "target_angle": 45 },
       { "object_id": "ribbon_2", "target_angle": 90 },
-      { "object_id": "ribbon_3", "target_angle": 90 },
+      { "object_id": "ribbon_3", "target_angle": 135 },
       { "object_id": "ribbon_4", "target_angle": 180 }
     ]
   }

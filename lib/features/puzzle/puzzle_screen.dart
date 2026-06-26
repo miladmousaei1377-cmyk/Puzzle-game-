@@ -267,9 +267,11 @@ class _PuzzleViewState extends ConsumerState<_PuzzleView> {
                       ),
                     ],
                   )
-                : const Text(
-                    'اشیاء را جابه‌جا کن',
-                    style: TextStyle(
+                : Text(
+                    widget.puzzle.revealCondition?.type == 'rotation_match'
+                        ? 'روی هر شیء ضربه بزن تا بچرخد'
+                        : 'اشیاء را به محل درست بکش',
+                    style: const TextStyle(
                       color: AppColors.muted,
                       fontSize: 13,
                       fontFamily: AppFonts.body,

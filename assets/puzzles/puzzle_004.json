@@ -9,34 +9,34 @@
     {
       "id": "shard_1",
       "asset": "",
-      "initial_position": { "x": 50, "y": 380 },
+      "initial_position": { "x": 20, "y": 160 },
       "movable": true,
       "rotatable": false,
       "z_index": 1,
       "snap_zones": [
-        { "target_position": { "x": 80, "y": 150 }, "snap_radius": 45 }
+        { "target_position": { "x": 60, "y": 50 }, "snap_radius": 50 }
       ]
     },
     {
       "id": "shard_2",
       "asset": "",
-      "initial_position": { "x": 200, "y": 400 },
+      "initial_position": { "x": 220, "y": 160 },
       "movable": true,
       "rotatable": false,
       "z_index": 2,
       "snap_zones": [
-        { "target_position": { "x": 170, "y": 220 }, "snap_radius": 45 }
+        { "target_position": { "x": 180, "y": 50 }, "snap_radius": 50 }
       ]
     },
     {
       "id": "shard_3",
       "asset": "",
-      "initial_position": { "x": 110, "y": 420 },
+      "initial_position": { "x": 120, "y": 10 },
       "movable": true,
       "rotatable": false,
       "z_index": 3,
       "snap_zones": [
-        { "target_position": { "x": 120, "y": 300 }, "snap_radius": 45 }
+        { "target_position": { "x": 120, "y": 150 }, "snap_radius": 50 }
       ]
     }
   ],

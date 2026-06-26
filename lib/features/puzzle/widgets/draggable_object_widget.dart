@@ -35,6 +35,7 @@ class _DraggableObjectWidgetState extends State<DraggableObjectWidget>
 
   Offset _dragStart = Offset.zero;
   Offset _posAtDragStart = Offset.zero;
+  Offset _currentDragPos = Offset.zero;
   bool _isDragging = false;
 
   @override
@@ -61,22 +62,23 @@ class _DraggableObjectWidgetState extends State<DraggableObjectWidget>
       _isDragging = true;
       _dragStart = d.globalPosition;
       _posAtDragStart = widget.position;
+      _currentDragPos = widget.position;
     });
   }
 
   void _onPanUpdate(DragUpdateDetails d) {
     if (!widget.object.movable) return;
     final delta = d.globalPosition - _dragStart;
-    widget.onPositionChanged(_posAtDragStart + delta);
+    _currentDragPos = _posAtDragStart + delta;
+    widget.onPositionChanged(_currentDragPos);
   }
 
   void _onPanEnd(DragEndDetails d) {
     if (!widget.object.movable) return;
     setState(() => _isDragging = false);
 
-    // Check snap zones
     for (final zone in widget.object.snapZones) {
-      final dist = (widget.position - zone.targetPosition).distance;
+      final dist = (_currentDragPos - zone.targetPosition).distance;
       if (dist <= zone.snapRadius) {
         widget.onPositionChanged(zone.targetPosition);
         _snapCtrl.forward(from: 0);

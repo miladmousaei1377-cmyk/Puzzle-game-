@@ -30,11 +30,26 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build debug APK (arm64)
-        run: flutter build apk --debug --target-platform android-arm64
+      - name: Generate launcher icons
+        run: flutter pub run flutter_launcher_icons
+
+      - name: Generate native splash
+        run: flutter pub run flutter_native_splash:create
+
+      - name: Write key.properties
+        run: |
+          cat > android/key.properties << 'KEYPROPS'
+          storePassword=bagh_khamosh_2024
+          keyPassword=bagh_khamosh_2024
+          keyAlias=bagh_khamosh
+          storeFile=bagh-khamosh-release.jks
+          KEYPROPS
+
+      - name: Build release APK (arm64)
+        run: flutter build apk --release --target-platform android-arm64
 
       - name: Rename APK
-        run: cp build/app/outputs/flutter-apk/app-debug.apk bagh-khamosh-${{ github.event.inputs.tag }}.apk
+        run: cp build/app/outputs/flutter-apk/app-release.apk bagh-khamosh-${{ github.event.inputs.tag }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -44,12 +59,15 @@ jobs:
           body: |
             ## نسخه آزمایشی باغ خاموش
 
-            این یک نسخه debug برای تست است.
+            ### تغییرات این نسخه
+            - فاز ۱ و ۲: هسته فنی بازی (routing، state management، ذخیره پیشرفت)
+            - فاز ۳: محتوا، صدا، راهنما، انیمیشن
+            - فاز ۴: آیکون اپ، splash screen، signing config، رفع باگ keypad
 
             ### نصب
             1. فایل APK را دانلود کنید
-            2. در تنظیمات گوشی «نصب از منابع ناشناخته» را فعال کنید
-            3. فایل را اجرا کنید
+            2. در تنظیمات گوشی **نصب از منابع ناشناخته** را فعال کنید
+            3. فایل را باز کنید و نصب کنید
           files: bagh-khamosh-${{ github.event.inputs.tag }}.apk
           draft: false
           prerelease: true
