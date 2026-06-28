@@ -64,6 +64,7 @@ flutter:
     - assets/puzzles/
     - assets/images/backgrounds/
     - assets/images/objects/
+    - assets/images/symbols/
     - assets/images/icons/
     - assets/sounds/ambient/
     - assets/sounds/sfx/

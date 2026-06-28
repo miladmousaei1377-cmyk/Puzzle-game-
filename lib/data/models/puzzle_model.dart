@@ -21,9 +21,9 @@ extension PuzzleSymbolExt on PuzzleSymbol {
     }
   }
 
-  String get id {
-    return name;
-  }
+  String get id => name;
+
+  String get assetPath => 'assets/images/symbols/$name.png';
 }
 
 PuzzleSymbol symbolFromString(String s) {

@@ -163,11 +163,17 @@ class _InputRow extends StatelessWidget {
           ),
           child: Center(
             child: filled
-                ? Text(
-                    input[i].label,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: wrongAnswer ? AppColors.error : AppColors.ink,
+                ? Image.asset(
+                    input[i].assetPath,
+                    width: 26,
+                    height: 26,
+                    color: wrongAnswer ? AppColors.error : AppColors.ink,
+                    errorBuilder: (_, __, ___) => Text(
+                      input[i].label,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: wrongAnswer ? AppColors.error : AppColors.ink,
+                      ),
                     ),
                   )
                 : null,
@@ -206,11 +212,17 @@ class _SymbolButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
-          child: Text(
-            symbol.label,
-            style: TextStyle(
-              fontSize: 28,
-              color: enabled ? AppColors.ink : AppColors.muted,
+          child: Image.asset(
+            symbol.assetPath,
+            width: 32,
+            height: 32,
+            color: enabled ? AppColors.ink : AppColors.muted,
+            errorBuilder: (_, __, ___) => Text(
+              symbol.label,
+              style: TextStyle(
+                fontSize: 28,
+                color: enabled ? AppColors.ink : AppColors.muted,
+              ),
             ),
           ),
         ),
